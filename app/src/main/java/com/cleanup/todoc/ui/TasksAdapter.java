@@ -21,23 +21,12 @@ import java.util.List;
  * @author Gaëtan HERFRAY
  */
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHolder> {
-    /**
-     * The list of tasks the adapter deals with
-     */
+
     @NonNull
     private List<Task> tasks;
-
-    /**
-     * The listener for when a task needs to be deleted
-     */
     @NonNull
     private final DeleteTaskListener deleteTaskListener;
 
-    /**
-     * Instantiates a new TasksAdapter.
-     *
-     * @param tasks the list of tasks the adapter deals with to set
-     */
     TasksAdapter(@NonNull final List<Task> tasks, @NonNull final DeleteTaskListener deleteTaskListener) {
         this.tasks = tasks;
         this.deleteTaskListener = deleteTaskListener;
@@ -88,24 +77,15 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
      * @author Gaëtan HERFRAY
      */
     class TaskViewHolder extends RecyclerView.ViewHolder {
-        /**
-         * The circle icon showing the color of the project
-         */
+
+        // The circle icon showing the color of the project
         private final AppCompatImageView imgProject;
-
-        /**
-         * The TextView displaying the name of the task
-         */
+        // The TextView displaying the name of the task
         private final TextView lblTaskName;
-
-        /**
-         * The TextView displaying the name of the project
-         */
+       // The TextView displaying the name of the project
         private final TextView lblProjectName;
 
-        /**
-         * The delete icon
-         */
+        // The delete icon
         private final AppCompatImageView imgDelete;
 
         /**

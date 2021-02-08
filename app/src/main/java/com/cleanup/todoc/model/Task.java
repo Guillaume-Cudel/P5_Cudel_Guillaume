@@ -1,5 +1,8 @@
 package com.cleanup.todoc.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -10,8 +13,10 @@ import java.util.Comparator;
  *
  * @author Gaëtan HERFRAY
  */
+@Entity(foreignKeys = @ForeignKey(entity = Project.class, parentColumns = "id", childColumns = "projectId"))
 public class Task {
 
+    @PrimaryKey(autoGenerate = true)
     private long id;
     private long projectId;
     // Suppress warning because setName is called in constructor
@@ -43,6 +48,10 @@ public class Task {
         this.id = id;
     }
 
+    public long getProjectId(){
+        return projectId;
+    }
+
     private void setProjectId(long projectId) {
         this.projectId = projectId;
     }
@@ -59,6 +68,10 @@ public class Task {
 
     private void setName(@NonNull String name) {
         this.name = name;
+    }
+
+    public long getCreationTimestamp(){
+        return creationTimestamp;
     }
 
     private void setCreationTimestamp(long creationTimestamp) {

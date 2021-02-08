@@ -1,5 +1,7 @@
 package com.cleanup.todoc.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,15 +11,17 @@ import android.support.annotation.Nullable;
  *
  * @author Gaëtan HERFRAY
  */
+@Entity
 public class Project {
 
-    private final long id;
+    @PrimaryKey
+    private  long id;
 
     @NonNull
-    private final String name;
+    private  String name;
 
     @ColorInt
-    private final int color;
+    private  int color;
 
     /**
      * Instantiates a new Project.
@@ -30,6 +34,10 @@ public class Project {
         this.id = id;
         this.name = name;
         this.color = color;
+    }
+
+    public Project(){
+
     }
 
     /**
@@ -69,6 +77,19 @@ public class Project {
      */
     public long getId() {
         return id;
+    }
+
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(@NonNull String name) {
+        this.name = name;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 
     /**
