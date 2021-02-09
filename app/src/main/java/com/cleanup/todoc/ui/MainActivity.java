@@ -40,9 +40,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     private final TasksAdapter adapter = new TasksAdapter(tasks, this);
 
-    /**
-     * The sort method to be used to display tasks
-     */
     @NonNull
     private SortMethod sortMethod = SortMethod.NONE;
 
@@ -55,16 +52,9 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     @Nullable
     private Spinner dialogSpinner = null;
 
-    // Suppress warning is safe because variable is initialized in onCreate
-    @SuppressWarnings("NullableProblems")
     @NonNull
     private RecyclerView listTasks;
 
-    /**
-     * The TextView displaying the empty state
-     */
-    // Suppress warning is safe because variable is initialized in onCreate
-    @SuppressWarnings("NullableProblems")
     @NonNull
     private TextView lblNoTasks;
 
