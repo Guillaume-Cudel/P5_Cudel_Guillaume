@@ -24,12 +24,18 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
 
     @NonNull
     private List<Task> tasks;
+
+    // todo suppression du /final/ devant deleteTaskListener
     @NonNull
-    private final DeleteTaskListener deleteTaskListener;
+    private DeleteTaskListener deleteTaskListener;
 
     TasksAdapter(@NonNull final List<Task> tasks, @NonNull final DeleteTaskListener deleteTaskListener) {
         this.tasks = tasks;
         this.deleteTaskListener = deleteTaskListener;
+    }
+
+    TasksAdapter(final List<Task> tasks){
+        this.tasks = tasks;
     }
 
     /**
