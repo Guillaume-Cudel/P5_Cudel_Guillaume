@@ -12,9 +12,9 @@ import com.cleanup.todoc.model.Project;
 public interface ProjectDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void createProject(Project project);
+    void insertProject(Project project);
 
-    @Query("SELECT * FROM Project WHERE id = :projectId")
+    @Query("SELECT * FROM project_table WHERE id = :projectId")
     LiveData<Project> getProject(long projectId);
 
 }

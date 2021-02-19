@@ -1,5 +1,6 @@
 package com.cleanup.todoc.model;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.ColorInt;
@@ -11,25 +12,19 @@ import android.support.annotation.Nullable;
  *
  * @author Gaëtan HERFRAY
  */
-@Entity
+@Entity(tableName = "project_table")
 public class Project {
 
     @PrimaryKey
+    @ColumnInfo(name = "id")
     private  long id;
-
     @NonNull
+    @ColumnInfo(name = "name")
     private  String name;
-
+    @ColumnInfo(name = "color")
     @ColorInt
     private  int color;
 
-    /**
-     * Instantiates a new Project.
-     *
-     * @param id    the unique identifier of the project to set
-     * @param name  the name of the project to set
-     * @param color the hex (ARGB) code of the color associated to the project to set
-     */
     private Project(long id, @NonNull String name, @ColorInt int color) {
         this.id = id;
         this.name = name;
@@ -40,11 +35,6 @@ public class Project {
 
     }
 
-    /**
-     * Returns all the projects of the application.
-     *
-     * @return all the projects of the application
-     */
     @NonNull
     public static Project[] getAllProjects() {
         return new Project[]{
@@ -70,47 +60,34 @@ public class Project {
         return null;
     }
 
-    /**
-     * Returns the unique identifier of the project.
-     *
-     * @return the unique identifier of the project
-     */
+
     public long getId() {
         return id;
     }
 
-
     public void setId(long id) {
         this.id = id;
+    }
+
+
+    @NonNull
+    public String getName() {
+        return name;
     }
 
     public void setName(@NonNull String name) {
         this.name = name;
     }
 
-    public void setColor(int color) {
-        this.color = color;
-    }
-
-    /**
-     * Returns the name of the project.
-     *
-     * @return the name of the project
-     */
-    @NonNull
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Returns the hex (ARGB) code of the color associated to the project.
-     *
-     * @return the hex (ARGB) code of the color associated to the project
-     */
     @ColorInt
     public int getColor() {
         return color;
     }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
 
     @Override
     @NonNull

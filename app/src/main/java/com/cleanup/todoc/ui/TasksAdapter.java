@@ -1,5 +1,6 @@
 package com.cleanup.todoc.ui;
 
+import android.content.ClipData;
 import android.content.res.ColorStateList;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatImageView;
@@ -25,18 +26,14 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
     @NonNull
     private List<Task> tasks;
 
-    // todo suppression du /final/ devant deleteTaskListener
     @NonNull
-    private DeleteTaskListener deleteTaskListener;
+    private final DeleteTaskListener deleteTaskListener;
 
     TasksAdapter(@NonNull final List<Task> tasks, @NonNull final DeleteTaskListener deleteTaskListener) {
         this.tasks = tasks;
         this.deleteTaskListener = deleteTaskListener;
     }
 
-    TasksAdapter(final List<Task> tasks){
-        this.tasks = tasks;
-    }
 
     /**
      * Updates the list of tasks the adapter deals with.
@@ -65,23 +62,26 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
         return tasks.size();
     }
 
-    /**
-     * Listener for deleting tasks
-     */
     public interface DeleteTaskListener {
-        /**
-         * Called when a task needs to be deleted.
-         *
-         * @param task the task that needs to be deleted
-         */
         void onDeleteTask(Task task);
     }
 
-    /**
-     * <p>ViewHolder for task items in the tasks list</p>
-     *
-     * @author Gaëtan HERFRAY
-     */
+    // Ajout
+    public Task getTask(int position){
+        return this.tasks.get(position);
+    }
+
+    public void updateData(List<Task> tasks){
+        this.tasks = tasks;
+        this.notifyDataSetChanged();
+    }
+
+    //-------------
+
+
+
+
+
     class TaskViewHolder extends RecyclerView.ViewHolder {
 
         // The circle icon showing the color of the project
@@ -94,9 +94,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
         // The delete icon
         private final AppCompatImageView imgDelete;
 
-        /**
-         * The listener for when a task needs to be deleted
-         */
         private final DeleteTaskListener deleteTaskListener;
 
         /**

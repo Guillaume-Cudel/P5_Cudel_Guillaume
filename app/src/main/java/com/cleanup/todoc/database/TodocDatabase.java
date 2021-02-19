@@ -32,7 +32,7 @@ public abstract class TodocDatabase extends RoomDatabase {
             synchronized (TodocDatabase.class){
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), TodocDatabase.class, "MyDatabase.db")
-                            .addCallback(pretaskDatabase())
+                            .addCallback(prePopulateDatabase())
                             .build();
                 }
             }
@@ -40,18 +40,39 @@ public abstract class TodocDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    private static Callback pretaskDatabase(){
+
+    private static Callback prePopulateDatabase(){
         return new Callback() {
             @Override
             public void onCreate(@NonNull SupportSQLiteDatabase db) {
                 super.onCreate(db);
 
                 ContentValues contentValues = new ContentValues();
-                contentValues.put("id", 1);
+               // contentValues.put("id", 1);
+                contentValues.put("projectId", 1L);
                 contentValues.put("name", "Passer la serpillère");
-                contentValues.put("creationTimestamp", 1253562405);
+                contentValues.put("creationTimestamp", new Date().getTime());
 
-                db.insert("Task", OnConflictStrategy.IGNORE, contentValues);
+                db.insert("task_table", OnConflictStrategy.IGNORE, contentValues);
+
+                ContentValues projectValues1 = new ContentValues();
+                projectValues1.put("id", 1L);
+                projectValues1.put("name", "Project Tartampion");
+                projectValues1.put("color", 0xFFEADAD1);
+
+                ContentValues projectValues2 = new ContentValues();
+                projectValues2.put("id", 2L);
+                projectValues2.put("name", "Project Lucidia");
+                projectValues2.put("color", 0xFFB4CDBA);
+
+                ContentValues projectValues3 = new ContentValues();
+                projectValues3.put("id", 3L);
+                projectValues3.put("name", "Project Circus");
+                projectValues3.put("color", 0xFFA3CED2);
+
+                db.insert("project_table", OnConflictStrategy.IGNORE, projectValues1);
+                db.insert("project_table", OnConflictStrategy.IGNORE, projectValues2);
+                db.insert("project_table", OnConflictStrategy.IGNORE, projectValues3);
             }
         };
     }
