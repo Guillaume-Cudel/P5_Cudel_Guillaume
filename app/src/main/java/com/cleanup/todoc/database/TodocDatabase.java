@@ -1,13 +1,14 @@
 package com.cleanup.todoc.database;
 
-import android.arch.persistence.db.SupportSQLiteDatabase;
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.OnConflictStrategy;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+import androidx.room.Database;
+import androidx.room.OnConflictStrategy;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 import android.content.ContentValues;
 import android.content.Context;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.cleanup.todoc.dao.ProjectDao;
 import com.cleanup.todoc.dao.TaskDao;
@@ -41,11 +42,13 @@ public abstract class TodocDatabase extends RoomDatabase {
     }
 
 
+
     private static Callback prePopulateDatabase(){
         return new Callback() {
             @Override
             public void onCreate(@NonNull SupportSQLiteDatabase db) {
                 super.onCreate(db);
+              //   new PopulateDbAsync(INSTANCE).execute();
 
                 ContentValues contentValues = new ContentValues();
                // contentValues.put("id", 1);
@@ -76,4 +79,21 @@ public abstract class TodocDatabase extends RoomDatabase {
             }
         };
     }
+
+  /*  private static class PopulateDbAsync extends AsyncTask<Void, Void, Void>{
+
+        private final TaskDao mDao;
+
+        PopulateDbAsync(TodocDatabase db){
+            mDao = db.taskDao();
+        }
+
+        @Override
+        protected Void doInBackground(final Void... voids) {
+            if(mDao.getAnyTask().length < 1){
+                for(int i =0; i < tas)
+            }
+            return null;
+        }
+    }*/
 }

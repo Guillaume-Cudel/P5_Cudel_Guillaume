@@ -1,10 +1,9 @@
 package com.cleanup.todoc.ui;
 
-import android.content.ClipData;
 import android.content.res.ColorStateList;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,16 +34,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
     }
 
 
-    /**
-     * Updates the list of tasks the adapter deals with.
-     *
-     * @param tasks the list of tasks the adapter deals with to set
-     */
-    void updateTasks(@NonNull final List<Task> tasks) {
-        this.tasks = tasks;
-        notifyDataSetChanged();
-    }
-
     @NonNull
     @Override
     public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
@@ -54,27 +43,40 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
 
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder taskViewHolder, int position) {
-        taskViewHolder.bind(tasks.get(position));
+        if (tasks != null) {
+            Task current = tasks.get(position);
+            taskViewHolder.bind(tasks.get(position));
+        }else {
+            taskViewHolder.imgProject.setVisibility(View.INVISIBLE);
+            taskViewHolder.lblProjectName.setText("");
+        }
+    }
+
+    void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
+        if (tasks != null)
         return tasks.size();
+        else return 0;
     }
 
     public interface DeleteTaskListener {
-        void onDeleteTask(Task task);
+        void deleteTask(Task task);
     }
 
     // Ajout
-    public Task getTask(int position){
+    public Task getTaskAtPosition(int position){
         return this.tasks.get(position);
     }
 
-    public void updateData(List<Task> tasks){
+   /* public void updateData(List<Task> tasks){
         this.tasks = tasks;
         this.notifyDataSetChanged();
-    }
+    }*/
 
     //-------------
 
@@ -117,7 +119,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
                 public void onClick(View view) {
                     final Object tag = view.getTag();
                     if (tag instanceof Task) {
-                        TaskViewHolder.this.deleteTaskListener.onDeleteTask((Task) tag);
+                        TaskViewHolder.this.deleteTaskListener.deleteTask((Task) tag);
                     }
                 }
             });
@@ -133,13 +135,13 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
             imgDelete.setTag(task);
 
             final Project taskProject = task.getProject();
-            if (taskProject != null) {
+            //if (taskProject != null) {
                 imgProject.setSupportImageTintList(ColorStateList.valueOf(taskProject.getColor()));
                 lblProjectName.setText(taskProject.getName());
-            } else {
+           /* } else {
                 imgProject.setVisibility(View.INVISIBLE);
                 lblProjectName.setText("");
-            }
+            }*/
 
         }
     }
