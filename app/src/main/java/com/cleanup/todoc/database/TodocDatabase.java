@@ -48,10 +48,9 @@ public abstract class TodocDatabase extends RoomDatabase {
             @Override
             public void onCreate(@NonNull SupportSQLiteDatabase db) {
                 super.onCreate(db);
-              //   new PopulateDbAsync(INSTANCE).execute();
-
+                // todo verifier pourquoi fonctionne pas
                 ContentValues contentValues = new ContentValues();
-               // contentValues.put("id", 1);
+                contentValues.put("id", 15);
                 contentValues.put("projectId", 1L);
                 contentValues.put("name", "Passer la serpillère");
                 contentValues.put("creationTimestamp", new Date().getTime());
@@ -79,21 +78,4 @@ public abstract class TodocDatabase extends RoomDatabase {
             }
         };
     }
-
-  /*  private static class PopulateDbAsync extends AsyncTask<Void, Void, Void>{
-
-        private final TaskDao mDao;
-
-        PopulateDbAsync(TodocDatabase db){
-            mDao = db.taskDao();
-        }
-
-        @Override
-        protected Void doInBackground(final Void... voids) {
-            if(mDao.getAnyTask().length < 1){
-                for(int i =0; i < tas)
-            }
-            return null;
-        }
-    }*/
 }

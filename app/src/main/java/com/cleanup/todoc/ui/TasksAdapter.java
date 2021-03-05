@@ -72,17 +72,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
     public Task getTaskAtPosition(int position){
         return this.tasks.get(position);
     }
-
-   /* public void updateData(List<Task> tasks){
-        this.tasks = tasks;
-        this.notifyDataSetChanged();
-    }*/
-
-    //-------------
-
-
-
-
+    
 
     class TaskViewHolder extends RecyclerView.ViewHolder {
 

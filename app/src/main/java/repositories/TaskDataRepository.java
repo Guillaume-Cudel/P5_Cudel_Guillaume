@@ -1,9 +1,9 @@
 package repositories;
 
 import android.app.Application;
-import androidx.lifecycle.LiveData;
-
 import android.os.AsyncTask;
+
+import androidx.lifecycle.LiveData;
 
 import com.cleanup.todoc.dao.TaskDao;
 import com.cleanup.todoc.database.TodocDatabase;
@@ -22,7 +22,6 @@ public class TaskDataRepository {
         mAllTasks = taskDao.getAllTasks();
     }
 
-   // public TaskDataRepository(TaskDao taskDao) { this.taskDao = taskDao; }
 
     // --- GET ---
 

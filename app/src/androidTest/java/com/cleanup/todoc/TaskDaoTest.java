@@ -1,10 +1,14 @@
 package com.cleanup.todoc;
 
+import android.content.Context;
+
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.room.Room;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.cleanup.todoc.dao.TaskDao;
 import com.cleanup.todoc.database.TodocDatabase;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
@@ -15,6 +19,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 public class TaskDaoTest {
 
     // FOR DATA
+    private TaskDao taskDao;
     private TodocDatabase database;
 
     // DATA SET FOR TEST
@@ -39,77 +45,59 @@ public class TaskDaoTest {
     private static Task TASK_DEMO3 = new Task(3, SECOND_PROJECT_DEMO.getId(),"Faire la vaisselle", new Date().getTime());
 
 
-
-    @Rule
-    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
-
     @Before
-    public void initDb() throws Exception{
-        this.database = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(),
-                TodocDatabase.class).allowMainThreadQueries().build();
-    }
-
-    @Test
-    public void insertAndGetProject() throws InterruptedException{
-        // BEFORE : Adding a new task
-        this.database.projectDao().createProject(FIRST_PROJECT_DEMO);
-        //TEST
-        Project project = LiveDataTestUtil.getValue(this.database.projectDao().getProject(FIRST_PROJECT_DEMO.getId()));
-        assertTrue(project.getName().equals(FIRST_PROJECT_DEMO.getName()) && project.getId() == FIRST_PROJECT_DEMO.getId());
+    public void createDb(){
+        Context context = ApplicationProvider.getApplicationContext();
+        database = Room.inMemoryDatabaseBuilder(context, TodocDatabase.class).build();
+        taskDao = database.taskDao();
     }
 
     @After
-    public void closeDb() throws  Exception{
+    public void closeDb() throws IOException{
         database.close();
     }
-
-
-    // Ajout test --------------------
-
-    @Test
+    @Before
     public void getItemsWhenNoItemInserted() throws InterruptedException {
         // TEST
-        List<Task> tasks = LiveDataTestUtil.getValue(this.database.taskDao().getTasks(FIRST_PROJECT_DEMO.getId()));
+        List<Task> tasks = LiveDataTestUtil.getValue(this.database.taskDao().getAllTasks());
         assertTrue(tasks.isEmpty());
     }
 
     @Test
-    public void insertAndGetTasks() throws InterruptedException {
-        // BEFORE : Adding demo user & demo items
+    public void insertTasks() throws InterruptedException {
 
-        this.database.projectDao().createProject(FIRST_PROJECT_DEMO);
         this.database.taskDao().insertTask(TASK_DEMO);
         this.database.taskDao().insertTask(TASK_DEMO2);
         this.database.taskDao().insertTask(TASK_DEMO3);
 
         // TEST
-        List<Task> tasks = LiveDataTestUtil.getValue(this.database.taskDao().getTasks(FIRST_PROJECT_DEMO.getId()));
+        List<Task> tasks = LiveDataTestUtil.getValue(this.database.taskDao().getAllTasks());
         assertTrue(tasks.size() == 3);
     }
 
     @Test
     public void insertAndUpdateTask() throws InterruptedException {
-        // BEFORE : Adding demo user & demo items. Next, update item added & re-save it
-        this.database.projectDao().createProject(FIRST_PROJECT_DEMO);
+       // update task added & re-save it
         this.database.taskDao().insertTask(TASK_DEMO);
-        Task taskAdded = LiveDataTestUtil.getValue(this.database.taskDao().getTasks(FIRST_PROJECT_DEMO.getId())).get(0);
+        Task taskAdded = LiveDataTestUtil.getValue(this.database.taskDao().getOneTask(TASK_DEMO.getId())).get(0);
         this.database.taskDao().updateTask(taskAdded);
 
         //TEST
-        List<Task> tasks = LiveDataTestUtil.getValue(this.database.taskDao().getTasks(FIRST_PROJECT_DEMO.getId()));
+        List<Task> tasks = LiveDataTestUtil.getValue(this.database.taskDao().getAllTasks());
         assertTrue(tasks.size() == 1 );
     }
 
     @Test
     public void insertAndDeleteTask() throws InterruptedException {
-        // BEFORE : Adding demo user & demo item. Next, get the item added & delete it.
-        this.database.projectDao().createProject(FIRST_PROJECT_DEMO);
+        // BEFORE : Adding demo task. Next, get the task added & delete it.
         this.database.taskDao().insertTask(TASK_DEMO);
-        Task taskAdded = LiveDataTestUtil.getValue(this.database.taskDao().getTasks(PROJECT_ID)).get(0);
-        this.database.taskDao().deleteTask(taskAdded.getId());
+        Task taskAdded = LiveDataTestUtil.getValue(this.database.taskDao().getOneTask(TASK_DEMO.getId())).get(0);
 
-        //TEST
-        List<Task> tasks = LiveDataTestUtil.getValue(this.database.taskDao().getTasks(FIRST_PROJECT_DEMO.getId()));
+        List<Task> tasks = LiveDataTestUtil.getValue(this.database.taskDao().getAllTasks());
+        assertTrue(tasks.size() == 1 );
+
+        this.database.taskDao().deleteTask(taskAdded);
         assertTrue(tasks.isEmpty());
     }
+
 }

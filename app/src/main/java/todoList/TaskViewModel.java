@@ -19,37 +19,12 @@ public class TaskViewModel extends AndroidViewModel {
 
     private TaskDataRepository taskDataSource;
     private ProjectDataRepository projectDataSource;
-   // private final Executor executor;
-
-    // DATA
-    @Nullable
-    private LiveData<Project> currentProject;
-    private LiveData<List<Task>> mAllTasks;
-
-   /* public TaskViewModel(TaskDataRepository taskDataSource, ProjectDataRepository projectDataSource) {
-        this.taskDataSource = taskDataSource;
-        this.projectDataSource = projectDataSource;
-       // this.executor = executor;
-    }*/
 
     public TaskViewModel(Application application){
         super(application);
         taskDataSource = new TaskDataRepository(application);
         projectDataSource = new ProjectDataRepository(application);
-
     }
-
-   /* public void init(long projectId){
-        if(this.currentProject != null){
-            return;
-        }
-        currentProject = projectDataSource.getProject(projectId);
-    }*/
-
-
-    //-----------
-    // FOR TASK
-    //-----------
 
     public LiveData<List<Task>> getAllTasks(){
         return taskDataSource.getAllTasks();
@@ -69,23 +44,6 @@ public class TaskViewModel extends AndroidViewModel {
 
     public void update(Task task){ taskDataSource.update(task);}
 
-   /* public void createTask(Task task){
-        executor.execute(() -> {
-            taskDataSource.insertTask(task);
-        });
-    }
-
-    public void deleteTask(Task task){
-        executor.execute(() -> {
-            taskDataSource.deleteTask(task);
-        });
-    }
-
-    public void updateTask(Task task){
-        executor.execute(() -> {
-            taskDataSource.update(task);
-        });
-    }*/
 
 
 }

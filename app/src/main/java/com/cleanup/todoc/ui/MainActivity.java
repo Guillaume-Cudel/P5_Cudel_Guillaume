@@ -57,10 +57,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     @NonNull
     private TextView lblNoTasks;
 
-
-    // FOR DATA
     private TaskViewModel taskViewModel;
-    private static long PROJECT_ID = 1L;
 
 
     @Override
@@ -75,8 +72,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         // configure RecyclerView & ViewModel
         this.configureRecyclerView();
         this.configureViewModel();
-
-
 
         listTasks.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         listTasks.setAdapter(adapter);
@@ -133,10 +128,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             if (taskName.trim().isEmpty()) {
                 dialogEditText.setError(getString(R.string.empty_task_name));
             }
-            // If both project and name of the task have been set
             else if (taskProject != null) {
-                // TODO: Replace this by id of persisted task
-               // long id = (long) (Math.random() * 50000);
 
                Task task = new Task(generateId(), taskProject.getId(), taskName, new Date().getTime());
                /* Utilisation methode terminee
@@ -169,9 +161,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         updateTasks();
     }*/
 
-    /**
-     * Updates the list of tasks in the UI
-     */
     private void updateTasks() {
         if (tasks.size() == 0) {
             lblNoTasks.setVisibility(View.VISIBLE);
@@ -227,7 +216,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
                     @Override
                     public void onClick(View view) {
-
                         onPositiveButtonClick(dialog);
                     }
                 });
@@ -245,9 +233,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         }
     }
 
-    /**
-     * List of all possible sort methods for task
-     */
     private enum SortMethod {
         ALPHABETICAL,
         ALPHABETICAL_INVERTED,
@@ -266,13 +251,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         return id;
     }
 
-    // CONFIGURING VIEWMODEL
-
-
     private void configureViewModel(){
-      //  ViewModelFactory mViewModelFactory = Injection.provideViewModelFactory(this);
-      //  this.taskViewModel = ViewModelProviders.of(this, mViewModelFactory).get(TaskViewModel.class);
-       // this.taskViewModel.init(PROJECT_ID);
        taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
        taskViewModel.getAllTasks().observe(this, new Observer<List<Task>>() {
            @Override
@@ -290,12 +269,8 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         this.adapter = new TasksAdapter(tasks, this );
         recyclerView.setAdapter(this.adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
     }
 
-    /*private void updateTaskVm(Task task){
-        this.taskViewModel.update(task);
-    }*/
 
 
 
