@@ -15,6 +15,8 @@ import com.cleanup.todoc.model.Task;
 
 import java.util.List;
 
+import todoList.TaskViewModel;
+
 /**
  * <p>Adapter which handles the list of tasks to display in the dedicated RecyclerView.</p>
  *
@@ -65,6 +67,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
     }
 
     public interface DeleteTaskListener {
+        //todo modif deleteTask en deleteTaskWithId
         void deleteTask(Task task);
     }
 
@@ -110,6 +113,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
                     final Object tag = view.getTag();
                     if (tag instanceof Task) {
                         TaskViewHolder.this.deleteTaskListener.deleteTask((Task) tag);
+                       // TaskViewHolder.this.deleteTaskListener.deleteTaskW
                     }
                 }
             });

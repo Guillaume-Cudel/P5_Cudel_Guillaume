@@ -114,6 +114,11 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         this.taskViewModel.deleteTask(task);
     }
 
+   /*@Override
+    public void deleteTaskWithId(Task task){
+        this.taskViewModel.deleteTaskWithId(task.getId());
+    }*/
+
 
     private void onPositiveButtonClick(DialogInterface dialogInterface) {
         // If dialog is open
